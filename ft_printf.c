@@ -6,7 +6,7 @@
 /*   By: yyamamor <yyamamor@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/09 13:30:00 by yyamamor          #+#    #+#             */
-/*   Updated: 2026/05/10 18:39:19 by yyamamor         ###   ########.fr       */
+/*   Updated: 2026/05/10 19:14:47 by yyamamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	ft_printf(const char *format, ...)
 	va_list	args;
 	int		i;
 	int		count;
+	int		ret;
 
 	va_start(args, format);
 	i = 0;
@@ -45,12 +46,15 @@ int	ft_printf(const char *format, ...)
 	while (format[i] != '\0')
 	{
 		if (format[i] == '%')
-		{
-			count += ft_handle_format(format[i + 1], &args);
-			i++;
-		}
+			ret = ft_handle_format(format[++i], &args);
 		else
-			count += ft_putchar(format[i]);
+			ret = ft_putchar(format[i]);
+		if (ret == -1)
+		{
+			va_end(args);
+			return (-1);
+		}
+		count += ret;
 		i++;
 	}
 	va_end(args);
