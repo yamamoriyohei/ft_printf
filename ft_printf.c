@@ -6,11 +6,32 @@
 /*   By: yyamamor <yyamamor@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/09 13:30:00 by yyamamor          #+#    #+#             */
-/*   Updated: 2026/05/09 14:09:00 by yyamamor         ###   ########.fr       */
+/*   Updated: 2026/05/10 18:39:19 by yyamamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+static int	ft_handle_format(const char format, va_list *args)
+{
+	if (format == 'c')
+		return (ft_putchar(va_arg(*args, int)));
+	else if (format == 's')
+		return (ft_putstr(va_arg(*args, char *)));
+	else if (format == '%')
+		return (ft_putchar('%'));
+	else if (format == 'p')
+		return (ft_putptr(va_arg(*args, void *)));
+	else if (format == 'd' || format == 'i')
+		return (ft_putnbr(va_arg(*args, int)));
+	else if (format == 'u')
+		return (ft_putunbr(va_arg(*args, unsigned int)));
+	else if (format == 'x')
+		return (ft_puthex(va_arg(*args, unsigned int)));
+	else if (format == 'X')
+		return (ft_puthex_upper(va_arg(*args, unsigned int)));
+	return (0);
+}
 
 int	ft_printf(const char *format, ...)
 {
@@ -25,22 +46,7 @@ int	ft_printf(const char *format, ...)
 	{
 		if (format[i] == '%')
 		{
-			if (format[i + 1] == 'c')
-				count += ft_putchar(va_arg(args, int));
-			else if (format[i + 1] == 's')
-				count += ft_putstr(va_arg(args, char *));
-			else if (format[i + 1] == '%')
-				count += ft_putchar('%');
-			else if (format[i + 1] == 'p')
-				count += ft_putptr(va_arg(args, void *));
-			else if (format[i + 1] == 'd' || format[i + 1] == 'i')
-				count += ft_putnbr(va_arg(args, int));
-			else if (format[i + 1] == 'u')
-				count += ft_putunbr(va_arg(args, unsigned int));
-			else if (format[i + 1] == 'x')
-				count += ft_puthex(va_arg(args, unsigned int));
-			else if (format[i + 1] == 'X')
-				count += ft_putHEX(va_arg(args, unsigned int));
+			count += ft_handle_format(format[i + 1], &args);
 			i++;
 		}
 		else

@@ -6,13 +6,13 @@
 /*   By: yyamamor <yyamamor@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/09 14:00:00 by yyamamor          #+#    #+#             */
-/*   Updated: 2026/05/09 14:09:00 by yyamamor         ###   ########.fr       */
+/*   Updated: 2026/05/10 18:39:20 by yyamamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_putHEX(unsigned int n)
+int	ft_puthex_upper(unsigned int n)
 {
 	int		count;
 	char	*base;
@@ -20,7 +20,7 @@ int	ft_putHEX(unsigned int n)
 	count = 0;
 	base = "0123456789ABCDEF";
 	if (n >= 16)
-		count += ft_putHEX(n / 16);
+		count += ft_puthex_upper(n / 16);
 	count += ft_putchar(base[n % 16]);
 	return (count);
 }
